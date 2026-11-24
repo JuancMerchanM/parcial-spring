@@ -3,10 +3,7 @@ package com.example.parcial.common;
 import java.time.LocalDateTime;
 import java.util.Map;
 
-/**
- * Cuerpo de error uniforme para toda la API.
- * Usar un record evita crear una clase con getters/setters.
- */
+
 public record ErrorResponse(
         LocalDateTime timestamp,
         int status,

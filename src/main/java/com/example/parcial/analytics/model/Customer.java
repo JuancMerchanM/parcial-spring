@@ -12,12 +12,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Documento de la coleccion "customers".
- *
- * Relacion principal: accounts[] guarda los account_id de la coleccion "accounts".
- * No existe una referencia inversa desde Account hacia Customer.
- */
+
 @Document(collection = "customers")
 @Data
 @Builder
@@ -35,10 +30,10 @@ public class Customer {
     private String email;
     private Boolean active;
 
-    /** account_id de las cuentas del cliente. */
+    
     private List<Integer> accounts;
 
-    /** Mapa UUID -> tier. El nombre real en Mongo es "tier_and_details". */
+    
     @Field("tier_and_details")
     private Map<String, Tier> tierAndDetails;
 }

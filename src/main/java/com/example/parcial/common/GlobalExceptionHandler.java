@@ -11,25 +11,25 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/**
- * Manejo centralizado de errores.
- *
- * @RestControllerAdvice captura las excepciones de todos los controllers
- * y devuelve una respuesta JSON con el codigo HTTP correcto.
- */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFound(ResourceNotFoundException ex,
                                                         HttpServletRequest request) {
-        ErrorResponse body = ErrorResponse.of(
-                HttpStatus.NOT_FOUND.value(),
-                HttpStatus.NOT_FOUND.getReasonPhrase(),
-                ex.getMessage(),
-                request.getRequestURI()
-        );
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body); // 404
+        return error(HttpStatus.NOT_FOUND, ex.getMessage(), request);
+    }
+
+    @ExceptionHandler(InvalidDataException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidData(InvalidDataException ex,
+                                                           HttpServletRequest request) {
+        return error(HttpStatus.BAD_REQUEST, ex.getMessage(), request);
+    }
+
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<ErrorResponse> handleConflict(ConflictException ex,
+                                                        HttpServletRequest request) {
+        return error(HttpStatus.CONFLICT, ex.getMessage(), request);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -47,29 +47,28 @@ public class GlobalExceptionHandler {
                 request.getRequestURI(),
                 detalles
         );
-        return ResponseEntity.badRequest().body(body); // 400
+        return ResponseEntity.badRequest().body(body);
     }
 
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<ErrorResponse> handleNoResource(NoResourceFoundException ex,
                                                           HttpServletRequest request) {
-        ErrorResponse body = ErrorResponse.of(
-                HttpStatus.NOT_FOUND.value(),
-                HttpStatus.NOT_FOUND.getReasonPhrase(),
-                "Ruta no encontrada: " + request.getRequestURI(),
-                request.getRequestURI()
-        );
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
+        return error(HttpStatus.NOT_FOUND, "Ruta no encontrada: " + request.getRequestURI(), request);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneric(Exception ex, HttpServletRequest request) {
+        return error(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), request);
+    }
+
+    private ResponseEntity<ErrorResponse> error(HttpStatus status, String message,
+                                                HttpServletRequest request) {
         ErrorResponse body = ErrorResponse.of(
-                HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
-                ex.getMessage(),
+                status.value(),
+                status.getReasonPhrase(),
+                message,
                 request.getRequestURI()
         );
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(body); // 500
+        return ResponseEntity.status(status).body(body);
     }
 }

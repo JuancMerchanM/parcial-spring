@@ -8,11 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.Instant;
 
-/**
- * Movimiento embebido dentro de TransactionDoc.transactions[].
- *
- * Ojo: price y total vienen como String en el dataset, no como numero.
- */
+
 @Data
 @Builder
 @NoArgsConstructor

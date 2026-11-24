@@ -6,9 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/**
- * Igual que con AccountRepository, se usa List por el account_id duplicado.
- */
+
 @Repository
 public interface TransactionRepository extends MongoRepository<TransactionDoc, String> {
 

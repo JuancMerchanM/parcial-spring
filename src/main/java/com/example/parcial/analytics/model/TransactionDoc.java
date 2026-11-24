@@ -11,12 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import java.time.Instant;
 import java.util.List;
 
-/**
- * Documento de la coleccion "transactions".
- *
- * Hay un documento por cuenta y los movimientos van embebidos en el array
- * "transactions". No es una coleccion de movimientos individuales.
- */
+
 @Document(collection = "transactions")
 @Data
 @Builder

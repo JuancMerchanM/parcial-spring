@@ -10,10 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
-/**
- * Documento de la coleccion "accounts".
- * El identificador de negocio es account_id (entero), no el _id de Mongo.
- */
+
 @Document(collection = "accounts")
 @Data
 @Builder
@@ -27,7 +24,6 @@ public class Account {
     @Field("account_id")
     private Integer accountId;
 
-    /** Limite de la cuenta. "limit" no es palabra reservada en Java. */
     private Integer limit;
 
     private List<String> products;
