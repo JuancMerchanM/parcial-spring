@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * Configuracion global de Swagger.
- * La UI queda en: http://localhost:8080/swagger-ui.html
- * El JSON OpenAPI en: http://localhost:8080/v3/api-docs
+ * UI: http://localhost:8080/swagger-ui.html
+ * JSON: http://localhost:8080/v3/api-docs
  */
 @Configuration
 public class OpenApiConfig {
@@ -16,8 +16,8 @@ public class OpenApiConfig {
     @Bean
     public OpenAPI parcialOpenAPI() {
         return new OpenAPI().info(new Info()
-                .title("API Parcial Spring Boot")
-                .description("Esquema basico: MongoDB, JPA, DTO, Lombok y Swagger")
+                .title("API sample_analytics")
+                .description("Clientes, cuentas y movimientos de la base sample_analytics")
                 .version("1.0.0"));
     }
 }
